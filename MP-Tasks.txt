@@ -1,0 +1,18 @@
+Module 3: (own version + simulation)
+- travelling salesman
+- knapsack
+
+Module 4: (application + simulation)
+- strassen matrix multiplication
+- closest pair
+
+Module 5: (application + simulation)
+- decrease by a constant (DFS + BFS)
+- decrease by a constant factor (Fake Coin + Russian Multiplication)
+- variable-size-decrease (ituturo pa ni sir)
+
+Note: use GUI (Graphical User Interface)
+Deadline: 
+- MP3 (jun 16, 2021)
+- MP4 
+- MP5
