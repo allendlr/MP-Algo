@@ -270,7 +270,7 @@ public class Travelling_Salesman {
         if (minimum_per_row != Integer.MAX_VALUE) {
           // convert the 'row_index' and 'column_index' to their respective letter equivalence
           String connected = String.valueOf(letters[row_index]) + String.valueOf(letters[column_index]);
-          // concatenate the origina and destination that was found (always contains two letters 
+          // concatenate the origin and destination that was found (always contains two letters 
           // which is origin and destination)
           path += connected;
           // store the cost (weight) of this path
