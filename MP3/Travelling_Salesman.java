@@ -277,7 +277,7 @@ public class Travelling_Salesman {
           cost += minimum_per_row;
         }
       }
-      // separate the every two letters (origin and destination) in a vector
+      // separate every two letters (origin and destination) in a vector
       Vector<String> separate = new Vector<String>();
       for (int i = 0; i < (int) path.length(); i += 2) {
         String temp = String.valueOf(path.charAt(i)) + String.valueOf(path.charAt(i + 1));
