@@ -33,15 +33,6 @@ public class Travelling_Salesman {
 //                        {2, 2, 6, Integer.MAX_VALUE, 6},
 //                        {3, 3, 5, 6, Integer.MAX_VALUE}};
   
-//      TEST CASE 3: (Output should be 110, this is from TSP EXER2) (UNCOMMENT below to enable)
-//  static char[] letters = {'A', 'B', 'C', 'D', 'E', 'F'};
-//  static int val[][]= {{Integer.MAX_VALUE, 20, 23, 27, 29, 34},
-//                       {21, Integer.MAX_VALUE, 19, 26, 31, 24},
-//                       {26, 28, Integer.MAX_VALUE, 15, 36, 26},
-//                       {25, 26, 25, Integer.MAX_VALUE, 23, 28},
-//                       {23, 40, 13, 31, Integer.MAX_VALUE, 10},
-//                       {27, 18, 12, 35, 16, Integer.MAX_VALUE}};
-  
   // Check() function -> this checks if the table does not contain any values except for 0 and Integer.MAX_VALUE
   private boolean Check(int[][] table) {
     for (int i = 0; i < (int) table.length; i++) {
