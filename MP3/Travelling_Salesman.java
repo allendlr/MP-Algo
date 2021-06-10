@@ -266,7 +266,7 @@ public class Travelling_Salesman {
           }
         }
         // check if there is minimum value that was found in a row (or if other paths still exist that
-        // was not taken out or revealed from undergoing the Penalty process above
+        // was not taken out or revealed from undergoing the Penalty process above)
         if (minimum_per_row != Integer.MAX_VALUE) {
           // convert the 'row_index' and 'column_index' to their respective letter equivalence
           String connected = String.valueOf(letters[row_index]) + String.valueOf(letters[column_index]);
