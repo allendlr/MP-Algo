@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package main;
 
 /**
  *
@@ -12,7 +13,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Travelling_Salesman {
+public class Main {
   static int cost = 0;
   static String path = "";
   
@@ -32,6 +33,15 @@ public class Travelling_Salesman {
 //                        {6, 5, Integer.MAX_VALUE, 6, 5},
 //                        {2, 2, 6, Integer.MAX_VALUE, 6},
 //                        {3, 3, 5, 6, Integer.MAX_VALUE}};
+  
+//      TEST CASE 3: (Output should be 110, this is from TSP EXER2) (UNCOMMENT below to enable)
+//  static char[] letters = {'A', 'B', 'C', 'D', 'E', 'F'};
+//  static int val[][]= {{Integer.MAX_VALUE, 20, 23, 27, 29, 34},
+//                       {21, Integer.MAX_VALUE, 19, 26, 31, 24},
+//                       {26, 28, Integer.MAX_VALUE, 15, 36, 26},
+//                       {25, 26, 25, Integer.MAX_VALUE, 23, 28},
+//                       {23, 40, 13, 31, Integer.MAX_VALUE, 10},
+//                       {27, 18, 12, 35, 16, Integer.MAX_VALUE}};
   
   // Check() function -> this checks if the table does not contain any values except for 0 and Integer.MAX_VALUE
   private boolean Check(int[][] table) {
@@ -186,8 +196,36 @@ public class Travelling_Salesman {
     return table;
   }
   
+  static void Print(int[][] table) {
+    System.out.print(" ");
+    for (int i = 0; i < (int) letters.length; i++) {
+      System.out.print(" " + letters[i]);
+    }
+    System.out.println("");
+    for (int i = 0; i < (int) table.length; i++) {
+      System.out.print(letters[i] + " ");
+      for (int j = 0; j < (int) table[i].length; j++) {
+        // replace all the Integer.MAX_VALUE elements with dash signs ('-')
+        System.out.print((table[i][j] == Integer.MAX_VALUE ? "-" : table[i][j]) + " ");
+      }
+      System.out.println("");
+    }
+  }
+  
+  static Vector<Vector<Integer>> ConvertVector(int[][] table) {
+    Vector<Vector<Integer>> v = new Vector<Vector<Integer>>();
+    for (int i = 0; i < (int) table.length; i++) {
+      Vector<Integer> temp = new Vector<Integer>();
+      for (int j = 0; j < (int) table[i].length; j++) {
+        temp.add(table[i][j]);
+      }
+      v.add(temp);
+    }
+    return v;
+  }
+  
   public static void main(String[] args) {
-      Travelling_Salesman object = new Travelling_Salesman();
+      Main object = new Main();
       // create a copy of 'val' (2D table that contains the values)
       int table[][] = new int[(int) val.length][(int) val.length];
       for (int i = 0; i < (int) table.length; i++) {
@@ -195,33 +233,53 @@ public class Travelling_Salesman {
           table[i][j] = val[i][j];
         }
       }
+      // newly added code block
+      Vector<Vector<Integer>> v = new Vector<Vector<Integer>>();
+      v = ConvertVector(table);
+      Vector<Vector<Vector<Integer>>> status = new Vector<Vector<Vector<Integer>>>();
+      status.add(v);
       // run a while-loop
       while (true) {
         if (object.Check(table)) {
           // the Check() function will decide if the while-loop will stop
           break;
         }
+//        System.out.println("\nTable Status: Before Row Minimization");
+//        Print(table);
         // first, the table undergoes Row Minimization (if there are no zeroes in a row)
         table = object.RowMinimization(table);
+        v = ConvertVector(table);
+        status.add(v);
+//        System.out.println("\nTable Status: After Row Minimization");
+//        Print(table);
         // second, the table undergoes Column Minimization (if there are no zeroes in a column)
+//        System.out.println("\nTable Status: Before Column Minimization");
+//        Print(table);
         table = object.ColumnMinimization(table);
+        v = ConvertVector(table);
+        status.add(v);
+//        System.out.println("\nTable Status: After Column Minimization");
+//        Print(table);
         // third, the table undergoes the Penalty process
+//        System.out.println("\nTable Status: Before Penalty");
+//        Print(table);
         table = object.Penalty(table);
+        v = ConvertVector(table);
+        status.add(v);
+//        System.out.println("\nTable Status: After Penalty");
+//        Print(table);
       }
-      // print the final status (appearance) of the table after all the operations
-      System.out.println("Table Status:");
-      System.out.print(" ");
-      for (int i = 0; i < (int) letters.length; i++) {
-        System.out.print(" " + letters[i]);
-      }
-      System.out.println("");
-      for (int i = 0; i < (int) table.length; i++) {
-        System.out.print(letters[i] + " ");
-        for (int j = 0; j < (int) table[i].length; j++) {
-          // replace all the Integer.MAX_VALUE elements with dash signs ('-')
-          System.out.print((table[i][j] == Integer.MAX_VALUE ? "-" : table[i][j]) + " ");
+      // for previous and next functions (GUI)
+      // outer loop ('i') = number of 2D tables (status)
+      for (int i = 0; i < (int) status.size(); i++) {
+        for (int j = 0; j < (int) status.get(i).size(); j++) {
+          for (int k = 0; k < (int) status.get(i).get(j).size(); k++) {
+            int val = status.get(i).get(j).get(k);
+            System.out.print((val == Integer.MAX_VALUE ? "-" : val) + " ");
+          }
+          System.out.println();
         }
-        System.out.println("");
+        System.out.println("__________");
       }
       // this for-loop below will handle the final case (step) which leads to finding the path
       for (int i = 0; i < (int) table.length; i++) {
@@ -266,18 +324,18 @@ public class Travelling_Salesman {
           }
         }
         // check if there is minimum value that was found in a row (or if other paths still exist that
-        // was not taken out or revealed from undergoing the Penalty process above)
+        // was not taken out or revealed from undergoing the Penalty process above
         if (minimum_per_row != Integer.MAX_VALUE) {
           // convert the 'row_index' and 'column_index' to their respective letter equivalence
           String connected = String.valueOf(letters[row_index]) + String.valueOf(letters[column_index]);
-          // concatenate the origin and destination that was found (always contains two letters 
+          // concatenate the origina and destination that was found (always contains two letters 
           // which is origin and destination)
           path += connected;
           // store the cost (weight) of this path
           cost += minimum_per_row;
         }
       }
-      // separate every two letters (origin and destination) in a vector
+      // separate the every two letters (origin and destination) in a vector
       Vector<String> separate = new Vector<String>();
       for (int i = 0; i < (int) path.length(); i += 2) {
         String temp = String.valueOf(path.charAt(i)) + String.valueOf(path.charAt(i + 1));
