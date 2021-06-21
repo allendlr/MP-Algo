@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -441,14 +440,6 @@ public class KnapsackGUI implements ActionListener{
                     }
                 }
             }
-        }
-    }
-    public int recur(int i, int current){
-        if(i == 0)
-            return 0;
-        else{
-
-            return recur(i - 1, current);
         }
     }
     public static void main(String[] args){
