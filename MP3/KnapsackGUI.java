@@ -10,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Timer;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -48,10 +47,12 @@ public class KnapsackGUI implements ActionListener{
     private JButton start;
     private JButton finish;
     private JLabel step_indicator;
+    private JLabel capacity_indicator;
     private JLabel feasible;
     private JLabel not_feasible;
     private JLabel best_Choice;
     private JLabel total;
+    private JLabel bestTotal;
     private JLabel[] best_ChoiceValues;
     private JLabel[] value_display;
     KnapsackGUI(){
@@ -105,7 +106,7 @@ public class KnapsackGUI implements ActionListener{
         empty_message = new JLabel("Some sections are empty.");
         empty_message.setFont(new Font("ARIAL", Font.PLAIN, 12));
         //Single Value Message
-        singleValue_message = new JLabel("Values and Weight must be < 1 elements");
+        singleValue_message = new JLabel("Values and Weight must be (1 < n >= 5) elements");
         singleValue_message.setFont(new Font("ARIAL", Font.PLAIN, 12));
         //Int Message
         int_message = new JLabel("Elements must be Integer");
@@ -172,49 +173,55 @@ public class KnapsackGUI implements ActionListener{
         //Components
         Sframe = new JFrame("Knapsack Simulation");
         //Value Panel
+        //150 70
         values_panel = new JPanel();
-        values_panel.setBounds(150, 70, 480, 250);
+        values_panel.setBounds(10, 70, 480, 250);
         values_panel.setBackground(new Color(168, 222, 250));
         values_panel.setBorder(BorderFactory.createLineBorder(Color.black));
         //Next Button
-        next = new JButton(">");
+        next = new JButton("NEXT");
         next.setFocusable(false);
-        next.setBounds(650, 70, 80, 50);
+        next.setBounds(110, 10, 90, 50);
         next.setFont(new Font("ARIAL", Font.BOLD, 15));
         next.addActionListener(this);
         //Previous Button
-        prev = new JButton("<");
+        prev = new JButton("PREV");
         prev.setFocusable(false);
-        prev.setBounds(50, 70, 80, 50);
+        prev.setBounds(10, 10, 90, 50);
         prev.setFont(new Font("ARIAL", Font.BOLD, 15));
         prev.addActionListener(this);
         //Start Button
-        start = new JButton("<<");
+        start = new JButton("START");
         start.setFocusable(false);
-        start.setBounds(50, 150, 80, 50);
+        start.setBounds(210, 10, 90, 50);
         start.setFont(new Font("ARIAL", Font.BOLD, 15));
         start.addActionListener(this);
         //Finish Button
-        finish = new JButton(">>");
+        finish = new JButton("END");
         finish.setFocusable(false);
-        finish.setBounds(650, 150, 80, 50);
+        finish.setBounds(310, 10, 90, 50);
         finish.setFont(new Font("ARIAL", Font.BOLD, 15));
         finish.addActionListener(this);
         //Step Indicator
         step_indicator = new JLabel("STEP: NA", JLabel.CENTER);
-        step_indicator.setBounds(180, 10, 100, 50);
+        step_indicator.setBounds(530, 10, 200, 50);
         step_indicator.setFont(new Font("ARIAL", Font.PLAIN, 18));
         step_indicator.setBorder(BorderFactory.createLineBorder(Color.black));
+        //Capacity Indicator
+        capacity_indicator = new JLabel("CAPACITY: " + c, JLabel.CENTER);
+        capacity_indicator.setBounds(530, 70, 200, 50);
+        capacity_indicator.setFont(new Font("ARIAL", Font.PLAIN, 18));
+        capacity_indicator.setBorder(BorderFactory.createLineBorder(Color.black));
         //Feasible Indicator
         feasible = new JLabel("FEASIBLE", JLabel.CENTER);
-        feasible.setBounds(300, 10, 120, 50);
+        feasible.setBounds(530, 130, 200, 50);
         feasible.setFont(new Font("ARIAL", Font.PLAIN, 18));
         feasible.setBorder(BorderFactory.createLineBorder(Color.black));
         feasible.setBackground(Color.green);
         feasible.setOpaque(false);
         //Not Feasible Indicator
         not_feasible = new JLabel("NOT FEASIBLE", JLabel.CENTER);
-        not_feasible.setBounds(440, 10, 160, 50);
+        not_feasible.setBounds(530, 190, 200, 50);
         not_feasible.setFont(new Font("ARIAL", Font.PLAIN, 18));
         not_feasible.setBorder(BorderFactory.createLineBorder(Color.black));
         not_feasible.setBackground(Color.red);
@@ -229,7 +236,7 @@ public class KnapsackGUI implements ActionListener{
         total.setFont(new Font("ARIAL", Font.PLAIN, 18));
         //Value Display
         value_display = new JLabel[n];
-        int x = 170;
+        int x = 30;
         for(int i = 0; i < elements; i++){
             value_display[i] = new JLabel("<html>V: " + V.get(i) + "<br>W: " + W.get(i) + "</html>", JLabel.CENTER);
             value_display[i].setBounds(x, 80, 80, 100);
@@ -249,8 +256,14 @@ public class KnapsackGUI implements ActionListener{
             Sframe.add(best_ChoiceValues[i]);
             x += 90;
         }
+        //Best Total
+        bestTotal = new JLabel("<html>BEST TOTAL: <br><br>" + "WEIGHT: " + 0 + "<br><br>VALUE: " + 0, JLabel.CENTER);
+        bestTotal.setBounds(410, 300, 300,300);
+        bestTotal.setFont(new Font("ARIAL", Font.PLAIN, 20));
         //Sframe
         Image icon = Toolkit.getDefaultToolkit().getImage("bag.png");
+        Sframe.add(bestTotal);
+        Sframe.add(capacity_indicator);
         Sframe.add(total);
         Sframe.add(not_feasible);
         Sframe.add(best_Choice);
@@ -306,7 +319,7 @@ public class KnapsackGUI implements ActionListener{
             } else if (c == "" || w == "" || val == ""){
                 FinalChecks = false;
                 popup.showMessageDialog(null, empty_message, "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else if (valSize == 1 || wSize == 1){
+            } else if (valSize == 1 || wSize == 1 || valSize > 5){
                 FinalChecks = false;
                 popup.showMessageDialog(null, singleValue_message, "ERROR", JOptionPane.ERROR_MESSAGE);
             } else{
@@ -336,110 +349,60 @@ public class KnapsackGUI implements ActionListener{
         } else if(e.getSource() == next){
             if(!(current >= totalN - 2)){
                 current++;
-                int totalValue = 0;
-                int totalWeight = 0;
-                System.out.println(comboStates.get(current));
-                step_indicator.setText("STEP: " + (current + 1));
-                step_indicator.revalidate();
-                for(int i = 0; i< elements; i++){
-                    if(comboStates.get(current).charAt(i) == '1'){
-                        totalValue += V.get(i);
-                        totalWeight += W.get(i);
-                        value_display[i].setBackground(Color.green);
-                        value_display[i].setOpaque(true);
-                        value_display[i].revalidate();
-                        value_display[i].repaint();
-                    } else{
-                        value_display[i].setBackground(Color.green);
-                        value_display[i].setOpaque(false);
-                        value_display[i].revalidate();
-                        value_display[i].repaint();
-                    }
-                    if(totalWeight <= C){
-                        not_feasible.setOpaque(false);
-                        feasible.setOpaque(true);
-                        not_feasible.revalidate();
-                        feasible.revalidate();
-                        not_feasible.repaint();
-                        feasible.repaint();
-                    } else{
-                        not_feasible.setOpaque(true);
-                        feasible.setOpaque(false);
-                        not_feasible.revalidate();
-                        feasible.revalidate();
-                        not_feasible.repaint();
-                        feasible.repaint();
-                    }
-                    total.setText("Value: " + totalValue + "    " + "Weight: " + totalWeight);
-                    total.revalidate();
-                    total.repaint();
-                    if (bestStates.get(current).charAt(i) == '1') {
-                        best_ChoiceValues[i].setBackground(Color.green);
-                        best_ChoiceValues[i].setOpaque(true);
-                        best_ChoiceValues[i].revalidate();
-                        best_ChoiceValues[i].repaint();
-                    } else {
-                        best_ChoiceValues[i].setOpaque(false);
-                        best_ChoiceValues[i].revalidate();
-                        best_ChoiceValues[i].repaint();
-                    }
-                }
+                reval();
                 
             }
         } else if(e.getSource() == prev){
-            if(!(current <= 0)){
+            if(!(current == 0)){
                 current--;
-                step_indicator.setText("STEP: " + (current + 1));
-                step_indicator.revalidate();
-                int totalValue = 0;
-                int totalWeight = 0;
-                System.out.println(comboStates.get(current));
-                step_indicator.setText("STEP: " + (current + 1));
-                step_indicator.revalidate();
-                for (int i = 0; i < elements; i++) {
-                    if (comboStates.get(current).charAt(i) == '1') {
-                        totalValue += V.get(i);
-                        totalWeight += W.get(i);
-                        value_display[i].setBackground(Color.green);
-                        value_display[i].setOpaque(true);
-                        value_display[i].revalidate();
-                        value_display[i].repaint();
-                    } else {
-                        value_display[i].setBackground(Color.green);
-                        value_display[i].setOpaque(false);
-                        value_display[i].revalidate();
-                        value_display[i].repaint();
-                    }
-                    if (totalWeight <= C) {
-                        not_feasible.setOpaque(false);
-                        feasible.setOpaque(true);
-                        not_feasible.revalidate();
-                        feasible.revalidate();
-                        not_feasible.repaint();
-                        feasible.repaint();
-                    } else {
-                        not_feasible.setOpaque(true);
-                        feasible.setOpaque(false);
-                        not_feasible.revalidate();
-                        feasible.revalidate();
-                        not_feasible.repaint();
-                        feasible.repaint();
-                    }
-                    total.setText("Value: " + totalValue + "    " + "Weight: " + totalWeight);
-                    total.revalidate();
-                    total.repaint();
-                    if (bestStates.get(current).charAt(i) == '1') {
-                        best_ChoiceValues[i].setBackground(Color.green);
-                        best_ChoiceValues[i].setOpaque(true);
-                        best_ChoiceValues[i].revalidate();
-                        best_ChoiceValues[i].repaint();
-                    } else {
-                        best_ChoiceValues[i].setOpaque(false);
-                        best_ChoiceValues[i].revalidate();
-                        best_ChoiceValues[i].repaint();
-                    }
-                }
+                reval();
             }
+        } else if(e.getSource() == start){
+            current = 0;
+            reval();
+        } else if(e.getSource() == finish){
+            current = totalN - 2;
+            reval();
+        }
+    }
+    public void reval(){
+        System.out.println("true");
+        int totalValue = 0;
+        int totalWeight = 0;
+        int bestV = 0;
+        int bestW = 0;
+        System.out.println(comboStates.get(current));
+        step_indicator.setText("STEP: " + (current + 1));
+        step_indicator.revalidate();
+        for (int i = 0; i < elements; i++) {
+            if (comboStates.get(current).charAt(i) == '1') {
+                totalValue += V.get(i);
+                totalWeight += W.get(i);
+                value_display[i].setBackground(Color.green);
+                value_display[i].setOpaque(true);
+            } else {
+                value_display[i].setBackground(Color.green);
+                value_display[i].setOpaque(false);
+            }
+            if (totalWeight <= C) {
+                not_feasible.setOpaque(false);
+                feasible.setOpaque(true);
+            } else {
+                not_feasible.setOpaque(true);
+                feasible.setOpaque(false);
+            }
+            total.setText("Value: " + totalValue + "    " + "Weight: " + totalWeight);
+            if (bestStates.get(current).charAt(i) == '1') {
+                best_ChoiceValues[i].setBackground(Color.green);
+                best_ChoiceValues[i].setOpaque(true);
+                bestV += V.get(i);
+                bestW += W.get(i);
+            } else {
+                best_ChoiceValues[i].setOpaque(false);
+            }
+            bestTotal.setText("<html>BEST TOTAL: <br><br>" + "WEIGHT: " + bestW + "<br><br>VALUE: " + bestV);
+            Sframe.revalidate();
+            Sframe.repaint();
         }
     }
     public static void main(String[] args){
