@@ -240,7 +240,7 @@ public class JasonMatrixAlgorithm {
       }
       combine.add(temp_2D);
     }
-    // store back them to their correct positions int the 'n' x 'n' table
+    // store them back to their correct positions int the 'n' x 'n' table
     Vector<Vector<Vector<Integer>>> ans = new Vector<Vector<Vector<Integer>>>();
     for (int i = 0; i < (int) combine.size(); i += 2) {
       Vector<Vector<Integer>> temp_2D = new Vector<Vector<Integer>>();
