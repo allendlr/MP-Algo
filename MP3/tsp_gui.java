@@ -352,7 +352,7 @@ public class tsp_gui extends javax.swing.JFrame {
 
         jTextField18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField18ActionaPerformed(evt);
+                jTextField18ActionPerformed(evt);
             }
         });
         jButton4.setVisible(false);
