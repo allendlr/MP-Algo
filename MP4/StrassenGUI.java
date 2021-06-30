@@ -8,9 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.AttributeSet.FontAttribute;
 import javax.swing.JComboBox;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 
 
 public class StrassenGUI implements ActionListener{
@@ -33,8 +35,6 @@ public class StrassenGUI implements ActionListener{
     private Boolean Table2 = false;
     private Vector<Integer> t1 = new Vector<Integer>();
     private Vector<Integer> t2 = new Vector<Integer>();
-
-    //Simulation Window Components
 
     //Input Window
     StrassenGUI(){
@@ -115,11 +115,124 @@ public class StrassenGUI implements ActionListener{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+    
+    // Simulation Window Components
+    private JFrame Sframe;
+    private JPanel table1_panel;
+    private JPanel table2_panel;
+    private JPanel final_panel;
+    private JButton[] submatrix_button;
+    private JButton[] p_button;
+    private JLabel submatrix_label;
+    private JLabel p_label;
+    private JLabel[] table1_values;
+    private JLabel[] table2_values;
+    private JLabel[] final_table_values;
 
-    //Simulation Window
-    StrassenGUI(int[][] x, int[][] y, int n){
-        
+
+    //Simulation Window 1024 x 720
+    StrassenGUI(Vector<Vector<Vector<Integer>>> v1, Vector<Vector<Vector<Integer>>> v2){
+        char letter = (char) (97);
+        Sframe = new JFrame("Strassen Simulation");
+        //table1_panel
+        table1_panel = new JPanel();
+        table1_panel.setLayout(null);
+        table1_panel.setBackground(new Color(104, 143, 173));
+        table1_panel.setBounds(10, 10, 320, 320);
+        //table2_panel
+        table2_panel = new JPanel();
+        table2_panel.setLayout(null);
+        table2_panel.setBackground(new Color(104, 143, 173));
+        table2_panel.setBounds(343, 10, 320, 320);
+        //final_panel
+        final_panel = new JPanel();
+        final_panel.setLayout(null);
+        final_panel.setBackground(new Color(104, 143, 173));
+        final_panel.setBounds(675, 10, 320, 320);
+        //submatrix_label
+        submatrix_label = new JLabel("SUBMATRICES", JLabel.CENTER);
+        submatrix_label.setFont(new Font("ARIAL", Font.BOLD, 24));
+        submatrix_label.setForeground(Color.WHITE);
+        submatrix_label.setBackground(new Color(104, 143, 173));
+        submatrix_label.setBounds(10, 340, 200, 50);
+        submatrix_label.setBorder(BorderFactory.createLineBorder(Color.black));
+        submatrix_label.setOpaque(true);
+        //submatrix_button (a-h)
+        submatrix_button = new JButton[8];
+        int xSbutton = 10;
+        for(int i = 0; i < 8; i++){
+            String sbutton = Character.toString(letter);
+            submatrix_button[i] = new JButton(sbutton);
+            submatrix_button[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
+            submatrix_button[i].setBounds(xSbutton, 400, 60, 60);
+            submatrix_button[i].setFocusable(false);
+            submatrix_button[i].addActionListener(this);
+            Sframe.add(submatrix_button[i]);
+            letter = (char) (letter + 1);
+            xSbutton += 70;
+        }
+        //p_label
+        p_label = new JLabel("P1 - P7", JLabel.CENTER);
+        p_label.setFont(new Font("ARIAL", Font.BOLD, 24));
+        p_label.setBounds(10, 470, 200, 50);
+        p_label.setForeground(Color.WHITE);
+        p_label.setBackground(new Color(104, 143, 173));
+        p_label.setBorder(BorderFactory.createLineBorder(Color.black));
+        p_label.setOpaque(true);
+        //p_button
+        xSbutton = 10;
+        p_button = new JButton[7];
+        for(int i = 0; i < 7; i++){
+            p_button[i] = new JButton("P" + (i + 1));
+            p_button[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
+            p_button[i].addActionListener(this);
+            p_button[i].setBounds(xSbutton, 530, 60, 60);
+            p_button[i].setFocusable(false);
+            Sframe.add(p_button[i]);
+            xSbutton += 70;
+        }
+        // FOR SIMULATION:
+        // 'a' to 'h' submatrices values;
+        // System.out.println("\nSIMULATION");
+        // System.out.println("[a - h values]");
+        // //table 1
+        // for (int i = 0; i < (int) v1.size(); i++) {
+        //     System.out.println("Submatrix " + letter);
+        //     for (int j = 0; j < (int) v1.get(i).size(); j++) {
+        //         for (int k = 0; k < (int) v1.get(i).get(j).size(); k++) {
+        //             System.out.print(v1.get(i).get(j).get(k) + " ");
+        //         }
+        //         System.out.println("");
+        //     }
+        //     System.out.println("");
+        //     letter = (char) (letter + 1);
+        // }
+        // //table 2
+        // for (int i = 0; i < (int) v2.size(); i++) {
+        //     System.out.println("Submatrix " + letter);
+        //     for (int j = 0; j < (int) v2.get(i).size(); j++) {
+        //         for (int k = 0; k < (int) v2.get(i).get(j).size(); k++) {
+        //             System.out.print(v2.get(i).get(j).get(k) + " ");
+        //         }
+        //         System.out.println("");
+        //     }
+        //     System.out.println("");
+        //     letter = (char) (letter + 1);
+        // }
+        //Sframe add components
+        Sframe.add(table1_panel);
+        Sframe.add(table2_panel);
+        Sframe.add(final_panel);
+        Sframe.add(submatrix_label);
+        Sframe.add(p_label);
+        //Sframe Configs
+        Sframe.setSize(1024, 720);
+        Sframe.setResizable(false);
+        Sframe.setLayout(null);
+        Sframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Sframe.setVisible(true);
     }
+    
     //Action Buttons
     @Override
     public void actionPerformed(ActionEvent e){
@@ -291,99 +404,8 @@ public class StrassenGUI implements ActionListener{
             Vector<Vector<Vector<Integer>>> v1 = DivideMatrix(x, n);
             // divide the ('n' x 'n') matrix into 4 ('n' / 2) submatrices ('y' 2D array)
             Vector<Vector<Vector<Integer>>> v2 = DivideMatrix(y, n);
-
-            // FOR SIMULATION:
-            // 'a' to 'h' submatrices values;
-            System.out.println("\nSIMULATION");
-            System.out.println("[a - h values]");
-            char letter = (char) (97);
-            for (int i = 0; i < (int) v1.size(); i++) {
-                System.out.println("Submatrix " + letter);
-                for (int j = 0; j < (int) v1.get(i).size(); j++) {
-                    for (int k = 0; k < (int) v1.get(i).get(j).size(); k++) {
-                        System.out.print(v1.get(i).get(j).get(k) + " ");
-                    }
-                    System.out.println("");
-                }
-                System.out.println("");
-                letter = (char) (letter + 1);
-            }
-            for (int i = 0; i < (int) v2.size(); i++) {
-                System.out.println("Submatrix " + letter);
-                for (int j = 0; j < (int) v2.get(i).size(); j++) {
-                    for (int k = 0; k < (int) v2.get(i).get(j).size(); k++) {
-                        System.out.print(v2.get(i).get(j).get(k) + " ");
-                    }
-                    System.out.println("");
-                }
-                System.out.println("");
-                letter = (char) (letter + 1);
-            }
-            // 'p1' to 'p7' submatrices values
-            System.out.println("[p1 - p7 values]");
-            Vector<Vector<Vector<Integer>>> p = new Vector<Vector<Vector<Integer>>>();
-            for (int i = 0; i < 7; i++) {
-                p.add(GetValuesForP(i + 1, v1, v2));
-            }
-            // 'p' values
-            for (int i = 0; i < 7; i++) {
-                System.out.println("Submatrix p" + (i + 1) + ": ");
-                for (int j = 0; j < (int) p.get(i).size(); j++) {
-                    for (int k = 0; k < (int) p.get(i).get(j).size(); k++) {
-                        System.out.print(p.get(i).get(j).get(k) + " ");
-                    }
-                    System.out.println("\n");
-                }
-            }
-            // final part
-            System.out.println("Final Answer: ");
-            Vector<Vector<Vector<Integer>>> res = new Vector<Vector<Vector<Integer>>>();
-            for (int i = 0; i < 4; i++) {
-                res.add(GetValuesForAnswer(i + 1, p));
-            }
-            // find the resulting 4 submatrices and store it in a 3D vector
-            Vector<Vector<Vector<Integer>>> combine = new Vector<Vector<Vector<Integer>>>();
-            for (int i = 0; i < (int) res.size(); i++) {
-                Vector<Vector<Integer>> temp_2D = new Vector<Vector<Integer>>();
-                for (int j = 0; j < (int) res.get(i).size(); j++) {
-                    Vector<Integer> temp_1D = new Vector<Integer>();
-                    for (int k = 0; k < (int) res.get(i).get(j).size(); k++) {
-                        temp_1D.add(res.get(i).get(j).get(k));
-                    }
-                    temp_2D.add(temp_1D);
-                }
-                combine.add(temp_2D);
-            }
-            // store them back to their corresponding positions in the 'n' x 'n' matrix
-            Vector<Vector<Vector<Integer>>> ans = new Vector<Vector<Vector<Integer>>>();
-            for (int i = 0; i < (int) combine.size(); i += 2) {
-                Vector<Vector<Integer>> temp_2D = new Vector<Vector<Integer>>();
-                for (int j = 0; j < (int) combine.get(i).size(); j++) {
-                    Vector<Integer> temp_1D = new Vector<Integer>();
-                    for (int k = 0; k < (int) combine.get(i).get(j).size(); k++) {
-                        int value = combine.get(i).get(j).get(k);
-                        temp_1D.add(value);
-                    }
-                    for (int k = 0; k < (int) combine.get(i).get(j).size(); k++) {
-                        int value = combine.get(i + 1).get(j).get(k);
-                        temp_1D.add(value);
-                    }
-                    temp_2D.add(temp_1D);
-                }
-                ans.add(temp_2D);
-            }
-            // print the 'n' x 'n' matrix (final answer)
-            for (int i = 0; i < (int) ans.size(); i++) {
-                for (int j = 0; j < (int) ans.get(i).size(); j++) {
-                    for (int k = 0; k < (int) ans.get(i).get(j).size(); k++) {
-                        System.out.print(ans.get(i).get(j).get(k) + " ");
-                    }
-                    System.out.println("");
-                }
-                if (i == (int) ans.size() - 1) {
-                    System.out.println("");
-                }
-            }
+            frame.setVisible(false);
+            new StrassenGUI(v1, v2);
 
         }
     }
