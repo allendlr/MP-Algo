@@ -54,6 +54,7 @@ public class StrassenGUI implements ActionListener{
     private JLabel tb3label;
     private JLabel[][] table1_values;
     private JLabel[][] table2_values;
+    private JLabel[][] p_table_value = new JLabel[7][64];
     private JLabel[] final_table_values;
     private JLabel p_values;
 
@@ -136,10 +137,6 @@ public class StrassenGUI implements ActionListener{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
-
-
-
     //Simulation Window 1024 x 720
     StrassenGUI(int[][] x, int[][] y, int n){
         // divide the ('n' x 'n') matrix into 4 ('n' / 2) submatrices ('x' 2D array)
@@ -149,6 +146,7 @@ public class StrassenGUI implements ActionListener{
         int layout_size = (int) v1.get(0).get(0).size() * 2;
         table_gap = n/2;
         GridLayout layout_grid = new GridLayout(layout_size, layout_size);
+        GridLayout layout_grid_p = new GridLayout(layout_size/2, layout_size/2);
         char letter = (char) (97);
         //GUI
         Sframe = new JFrame("Strassen Simulation");
@@ -223,12 +221,9 @@ public class StrassenGUI implements ActionListener{
         submatrix_label.setOpaque(true);
         //logs_panel
         logs_panel = new JPanel();
-        logs_panel.setLayout(layout_grid);
+        logs_panel.setLayout(layout_grid_p);
         logs_panel.setBackground(new Color(104, 143, 173));
         logs_panel.setBounds(675, 460, 320, 250);
-
-
-
         //log_label
         log_label = new JLabel("LOGS", JLabel.CENTER);
         log_label.setFont(new Font("ARIAL", Font.BOLD, 24));
@@ -286,16 +281,22 @@ public class StrassenGUI implements ActionListener{
         }
 
         // 'p' values
+        int p_counter = 0;
         for (int i = 0; i < 7; i++) {
+            p_counter = 0;
             System.out.println("Submatrix p" + (i + 1) + ": ");
             for (int j = 0; j < (int) p.get(i).size(); j++) {
                 for (int k = 0; k < (int) p.get(i).get(j).size(); k++) {
+                    String temp = Integer.toString(p.get(i).get(j).get(k));
+                    p_table_value[i][p_counter] = new JLabel(temp, JLabel.CENTER);
+                    p_table_value[i][p_counter].setBounds(0, 0, 30, 30);
+                    p_table_value[i][p_counter].setBorder(BorderFactory.createLineBorder(Color.black));
                     System.out.print(p.get(i).get(j).get(k) + " ");
+                    p_counter++;
                 }
                 System.out.println("\n");
             }
         }
-
 
         // final part
         System.out.println("Final Answer: ");
@@ -342,9 +343,10 @@ public class StrassenGUI implements ActionListener{
                 for (int k = 0; k < (int) ans.get(i).get(j).size(); k++) {
                     String fvalue = Integer.toString(ans.get(i).get(j).get(k));
                     System.out.print(ans.get(i).get(j).get(k) + " ");
-                    final_table_values[ftable_count] = new JLabel(fvalue);
+                    final_table_values[ftable_count] = new JLabel(fvalue, JLabel.CENTER);
                     final_table_values[ftable_count].setBounds(0, 0, 30, 30);
-                    final_table_values[ftable_count].setBackground(Color.GREEN);
+                    final_table_values[ftable_count].setBackground(Color.YELLOW);
+                    final_table_values[ftable_count].setOpaque(true);
                     final_table_values[ftable_count].setBorder(BorderFactory.createLineBorder(Color.black));
                     final_panel.add(final_table_values[ftable_count]);
                     ftable_count++;
@@ -357,13 +359,13 @@ public class StrassenGUI implements ActionListener{
         }
         //formula
         p_values = new JLabel(" ", JLabel.CENTER);
-        p_values.setFont(new Font("ARIAL", Font.BOLD, 24));
+        p_values.setFont(new Font("ARIAL", Font.BOLD, 18));
         p_values.setForeground(Color.WHITE);
         p_values.setBackground(new Color(104, 143, 173));
-        p_values.setBounds(10, 400, 200, 50);
+        p_values.setBounds(675, 715, 320, 40);
         p_values.setBorder(BorderFactory.createLineBorder(Color.black));
         p_values.setOpaque(true);
-        logs_panel.add(p_values);
+        Sframe.add(p_values);
         //Sframe add components
         Sframe.add(table1_panel);
         Sframe.add(table2_panel);
@@ -672,6 +674,13 @@ public class StrassenGUI implements ActionListener{
         } else if (x.equals("P1")){
             // a(f-h)
             clearTable();
+            logs_panel.removeAll();
+            logs_panel.revalidate();
+            System.out.println(table_gap);
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[0][i]);
+                System.out.println(p_table_value[0][i].getText() + " ");
+            }
             //a
             for (int i = 0; i < table_gap; i++) {
                 for (int j = 0; j < table_gap; j++) {
@@ -698,10 +707,14 @@ public class StrassenGUI implements ActionListener{
             table1_panel.repaint();
             table2_panel.revalidate();
             table2_panel.repaint();
+            logs_panel.revalidate();
+            logs_panel.repaint();
         } else if (x.equals("P2")) {
 
             // (a+b)h
             clearTable();
+            logs_panel.removeAll();
+            logs_panel.revalidate();
             // a
             for (int i = 0; i < table_gap; i++) {
                 for (int j = 0; j < table_gap; j++) {
@@ -721,7 +734,12 @@ public class StrassenGUI implements ActionListener{
                 }
             }
             p_values.setText("P2: Formula = (a+b)h");
-
+            
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[1][i]);
+            }
+            logs_panel.revalidate();
+            logs_panel.repaint();
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -748,7 +766,12 @@ public class StrassenGUI implements ActionListener{
                 }
             }
             p_values.setText("P3: Formula = (c+d)e");
-
+            logs_panel.removeAll();
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[2][i]);
+            }
+            logs_panel.revalidate();
+            logs_panel.repaint();
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -774,7 +797,12 @@ public class StrassenGUI implements ActionListener{
                 }
             }
             p_values.setText("P4: Formula = d(g-e)");
-
+            logs_panel.removeAll();
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[3][i]);
+            }
+            logs_panel.revalidate();
+            logs_panel.repaint();
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -807,7 +835,12 @@ public class StrassenGUI implements ActionListener{
                 }
             }
             p_values.setText("P5: Formula = (a+d)(e+h)");
-
+            logs_panel.removeAll();
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[4][i]);
+            }
+            logs_panel.revalidate();
+            logs_panel.repaint();
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -840,7 +873,12 @@ public class StrassenGUI implements ActionListener{
                 }
             }
             p_values.setText("P6: Formula = (b-d)(g+h)");
-
+            logs_panel.removeAll();
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[5][i]);
+            }
+            logs_panel.revalidate();
+            logs_panel.repaint();
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -874,6 +912,12 @@ public class StrassenGUI implements ActionListener{
             }
 
             p_values.setText("P7: Formula = (a-e)(e+f)");
+            logs_panel.removeAll();
+            for(int i = 0; i < table_gap * table_gap; i++){
+                logs_panel.add(p_table_value[6][i]);
+            }
+            logs_panel.revalidate();
+            logs_panel.repaint();
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
