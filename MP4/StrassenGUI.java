@@ -42,14 +42,21 @@ public class StrassenGUI implements ActionListener{
     private JPanel table1_panel;
     private JPanel table2_panel;
     private JPanel final_panel;
+    private JPanel logs_panel;
     private JButton[] submatrix_button = new JButton[8];
     private JButton[] p_button = new JButton[7];
     private JLabel submatrix_label;
     private JLabel p_label;
     private JButton reset;
+    private JLabel log_label;
+    private JLabel tb1_label;
+    private JLabel tb2_label;
+    private JLabel tb3label;
     private JLabel[][] table1_values;
     private JLabel[][] table2_values;
     private JLabel[] final_table_values;
+    private JLabel p_values;
+
     //Input Window
     StrassenGUI(){
         frame = new JFrame("Strassen Input Window");
@@ -129,8 +136,8 @@ public class StrassenGUI implements ActionListener{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-    
-    
+
+
 
 
     //Simulation Window 1024 x 720
@@ -144,12 +151,19 @@ public class StrassenGUI implements ActionListener{
         GridLayout layout_grid = new GridLayout(layout_size, layout_size);
         char letter = (char) (97);
         //GUI
-        Sframe = new JFrame("Strassen Simulation");   
+        Sframe = new JFrame("Strassen Simulation");
         //table1_panel
         table1_panel = new JPanel();
         table1_panel.setLayout(layout_grid);
         table1_panel.setBackground(new Color(104, 143, 173));
-        table1_panel.setBounds(10, 10, 320, 320);
+        table1_panel.setBounds(10, 70, 320, 320);
+        tb1_label = new JLabel("Table 1", JLabel.CENTER);
+        tb1_label.setFont(new Font("ARIAL", Font.BOLD, 24));
+        tb1_label.setForeground(Color.WHITE);
+        tb1_label.setBackground(new Color(104, 143, 173));
+        tb1_label.setBounds(10, 10, 200, 50);
+        tb1_label.setBorder(BorderFactory.createLineBorder(Color.black));
+        tb1_label.setOpaque(true);
         // table1_values
         table1_values = new JLabel[n][n];
         for (int i = 0; i < n; i++) {
@@ -166,8 +180,15 @@ public class StrassenGUI implements ActionListener{
         table2_panel = new JPanel();
         table2_panel.setLayout(layout_grid);
         table2_panel.setBackground(new Color(104, 143, 173));
-        table2_panel.setBounds(343, 10, 320, 320);
-        // table1_values
+        table2_panel.setBounds(343, 70, 320, 320);
+        tb2_label = new JLabel("Table 2", JLabel.CENTER);
+        tb2_label.setFont(new Font("ARIAL", Font.BOLD, 24));
+        tb2_label.setForeground(Color.WHITE);
+        tb2_label.setBackground(new Color(104, 143, 173));
+        tb2_label.setBounds(343, 10, 200, 50);
+        tb2_label.setBorder(BorderFactory.createLineBorder(Color.black));
+        tb2_label.setOpaque(true);
+        // table2_values
         table2_values = new JLabel[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -179,26 +200,51 @@ public class StrassenGUI implements ActionListener{
                 table2_panel.add(table2_values[i][j]);
             }
         }
+
         //final_panel
         final_panel = new JPanel();
         final_panel.setLayout(layout_grid);
         final_panel.setBackground(new Color(104, 143, 173));
-        final_panel.setBounds(675, 10, 320, 320);
+        final_panel.setBounds(675, 70, 320, 320);
+        tb3label = new JLabel("Final Table", JLabel.CENTER);
+        tb3label.setFont(new Font("ARIAL", Font.BOLD, 24));
+        tb3label.setForeground(Color.WHITE);
+        tb3label.setBackground(new Color(104, 143, 173));
+        tb3label.setBounds(675, 10, 200, 50);
+        tb3label.setBorder(BorderFactory.createLineBorder(Color.black));
+        tb3label.setOpaque(true);
         //submatrix_label
         submatrix_label = new JLabel("SUBMATRICES", JLabel.CENTER);
         submatrix_label.setFont(new Font("ARIAL", Font.BOLD, 24));
         submatrix_label.setForeground(Color.WHITE);
         submatrix_label.setBackground(new Color(104, 143, 173));
-        submatrix_label.setBounds(10, 340, 200, 50);
+        submatrix_label.setBounds(10, 400, 200, 50);
         submatrix_label.setBorder(BorderFactory.createLineBorder(Color.black));
         submatrix_label.setOpaque(true);
+        //logs_panel
+        logs_panel = new JPanel();
+        logs_panel.setLayout(layout_grid);
+        logs_panel.setBackground(new Color(104, 143, 173));
+        logs_panel.setBounds(675, 460, 320, 250);
+
+
+
+        //log_label
+        log_label = new JLabel("LOGS", JLabel.CENTER);
+        log_label.setFont(new Font("ARIAL", Font.BOLD, 24));
+        log_label.setForeground(Color.WHITE);
+        log_label.setBackground(new Color(104, 143, 173));
+        log_label.setBounds(675, 400, 200, 50);
+        log_label.setBorder(BorderFactory.createLineBorder(Color.black));
+        log_label.setOpaque(true);
+
         //submatrix_button (a-h)
         int xSbutton = 10;
         for(int i = 0; i < 8; i++){
             String sbutton = Character.toString(letter);
             submatrix_button[i] = new JButton(sbutton);
             submatrix_button[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
-            submatrix_button[i].setBounds(xSbutton, 400, 60, 60);
+            submatrix_button[i].setBounds(xSbutton, 460, 60, 60);
             submatrix_button[i].setFocusable(false);
             submatrix_button[i].addActionListener(this);
             Sframe.add(submatrix_button[i]);
@@ -208,7 +254,7 @@ public class StrassenGUI implements ActionListener{
         //p_label
         p_label = new JLabel("P1 - P7", JLabel.CENTER);
         p_label.setFont(new Font("ARIAL", Font.BOLD, 24));
-        p_label.setBounds(10, 470, 200, 50);
+        p_label.setBounds(10, 530, 200, 50);
         p_label.setForeground(Color.WHITE);
         p_label.setBackground(new Color(104, 143, 173));
         p_label.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -219,7 +265,7 @@ public class StrassenGUI implements ActionListener{
             p_button[i] = new JButton("P" + (i + 1));
             p_button[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
             p_button[i].addActionListener(this);
-            p_button[i].setBounds(xSbutton, 530, 60, 60);
+            p_button[i].setBounds(xSbutton, 590, 60, 60);
             p_button[i].setFocusable(false);
             Sframe.add(p_button[i]);
             xSbutton += 70;
@@ -228,7 +274,7 @@ public class StrassenGUI implements ActionListener{
         reset = new JButton("RESET");
         reset.setFont(new Font("ARIAL", Font.PLAIN, 20));
         reset.addActionListener(this);
-        reset.setBounds(10, 600, 100, 60);
+        reset.setBounds(10, 660, 100, 60);
         reset.setFocusable(false);
         // ALGO
         // 'p1' to 'p7' submatrices values
@@ -236,7 +282,9 @@ public class StrassenGUI implements ActionListener{
         Vector<Vector<Vector<Integer>>> p = new Vector<Vector<Vector<Integer>>>();
         for (int i = 0; i < 7; i++) {
             p.add(GetValuesForP(i + 1, v1, v2));
+
         }
+
         // 'p' values
         for (int i = 0; i < 7; i++) {
             System.out.println("Submatrix p" + (i + 1) + ": ");
@@ -247,6 +295,8 @@ public class StrassenGUI implements ActionListener{
                 System.out.println("\n");
             }
         }
+
+
         // final part
         System.out.println("Final Answer: ");
         Vector<Vector<Vector<Integer>>> res = new Vector<Vector<Vector<Integer>>>();
@@ -305,21 +355,35 @@ public class StrassenGUI implements ActionListener{
                 System.out.println("");
             }
         }
+        //formula
+        p_values = new JLabel(" ", JLabel.CENTER);
+        p_values.setFont(new Font("ARIAL", Font.BOLD, 24));
+        p_values.setForeground(Color.WHITE);
+        p_values.setBackground(new Color(104, 143, 173));
+        p_values.setBounds(10, 400, 200, 50);
+        p_values.setBorder(BorderFactory.createLineBorder(Color.black));
+        p_values.setOpaque(true);
+        logs_panel.add(p_values);
         //Sframe add components
         Sframe.add(table1_panel);
         Sframe.add(table2_panel);
         Sframe.add(final_panel);
+        Sframe.add(logs_panel);
+        Sframe.add(log_label);
         Sframe.add(reset);
         Sframe.add(submatrix_label);
         Sframe.add(p_label);
+        Sframe.add(tb1_label);
+        Sframe.add(tb2_label);
+        Sframe.add(tb3label);
         //Sframe Configs
-        Sframe.setSize(1024, 720);
+        Sframe.setSize(1024, 800);
         Sframe.setResizable(false);
         Sframe.setLayout(null);
         Sframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Sframe.setVisible(true);
     }
-    
+
     //Action Buttons
     @Override
     public void actionPerformed(ActionEvent e){
@@ -333,13 +397,13 @@ public class StrassenGUI implements ActionListener{
                     if (i % 2 == 0 && i != 0){
                         y += gap;
                         x = 5;
-                    } 
-                        
+                    }
+
                     table_input[i] = new JTextField();
                     table_input[i].setBounds(x, y, 70, 70);
                     table_input[i].setHorizontalAlignment(JTextField.CENTER);
                     table_input[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
-                    
+
                     x += gap;
                     table_panel.add(table_input[i]);
                 }
@@ -407,7 +471,7 @@ public class StrassenGUI implements ActionListener{
                 table_panel.revalidate();
                 table_panel.repaint();
             }
-            
+
         } else if(e.getSource() == randomize_button){
             Random rand = new Random();
             String random_val = "";
@@ -487,7 +551,7 @@ public class StrassenGUI implements ActionListener{
             int[][] x = convert2d(t1, n);
             int[][] y = convert2d(t2, n);
 
-            
+
             frame.setVisible(false);
             new StrassenGUI(x, y, n);
         } else if (e.getSource() == reset){
@@ -496,6 +560,9 @@ public class StrassenGUI implements ActionListener{
             table2_panel.revalidate();
             table1_panel.repaint();
             table2_panel.repaint();
+            p_values.setText(" ");
+
+
         }
         String text = "";
         for(int i = 0; i < 8; i++){
@@ -510,7 +577,7 @@ public class StrassenGUI implements ActionListener{
                 sbuttonFunction(text);
             }
         }
-        
+
     }
     public void sbuttonFunction(String x){
         if (x.equals("a")){
@@ -568,7 +635,7 @@ public class StrassenGUI implements ActionListener{
             table1_panel.repaint();
             table2_panel.revalidate();
             table2_panel.repaint();
-            
+
         } else if (x.equals("f")) {
             clearTable();
             for (int i = 0; i < table_gap; i++) {
@@ -623,11 +690,16 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+            p_values.setText("P1: Formula = a(f-h)");
+
+
+
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
             table2_panel.repaint();
         } else if (x.equals("P2")) {
+
             // (a+b)h
             clearTable();
             // a
@@ -648,6 +720,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+            p_values.setText("P2: Formula = (a+b)h");
+
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -673,6 +747,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+            p_values.setText("P3: Formula = (c+d)e");
+
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -697,6 +773,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+            p_values.setText("P4: Formula = d(g-e)");
+
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -704,7 +782,7 @@ public class StrassenGUI implements ActionListener{
         } else if (x.equals("P5")) {
             // (a+d)(e+f)
             clearTable();
-            //a 
+            //a
             for (int i = 0; i < table_gap; i++) {
                 for (int j = 0; j < table_gap; j++) {
                     table1_values[i][j].setOpaque(true);
@@ -728,6 +806,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+            p_values.setText("P5: Formula = (a+d)(e+h)");
+
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -759,6 +839,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+            p_values.setText("P6: Formula = (b-d)(g+h)");
+
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -790,6 +872,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
+
+            p_values.setText("P7: Formula = (a-e)(e+f)");
             table1_panel.revalidate();
             table1_panel.repaint();
             table2_panel.revalidate();
@@ -831,7 +915,7 @@ public class StrassenGUI implements ActionListener{
         }
         return temp;
     }
-    
+
     static Vector<Vector<Integer>> Multiply2DParts(Vector<Vector<Integer>> a, Vector<Vector<Integer>> b) {
         Vector<Vector<Integer>> res = new Vector<Vector<Integer>>();
         for (int i = 0; i < (int) a.size(); i++) {
@@ -892,7 +976,7 @@ public class StrassenGUI implements ActionListener{
 
     // calculate the 'a' - 'h' submatrices using the formula
     static Vector<Vector<Integer>> GetValuesForP(int id, Vector<Vector<Vector<Integer>>> v1,
-            Vector<Vector<Vector<Integer>>> v2) {
+                                                 Vector<Vector<Vector<Integer>>> v2) {
         Vector<Vector<Integer>> res = new Vector<Vector<Integer>>();
         Vector<Vector<Integer>> a = Get2DParts(0, v1);
         Vector<Vector<Integer>> b = Get2DParts(1, v1);
