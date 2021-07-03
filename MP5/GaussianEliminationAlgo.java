@@ -77,7 +77,7 @@ public class GaussianEliminationAlgo {
       }
       System.out.println("Please try again.");
     }
-    // print matrix form
+    // print equation form
     System.out.println("\nEquation Form:");
     for (int i = 0; i < n; i++) {
       int coeff = 97;
