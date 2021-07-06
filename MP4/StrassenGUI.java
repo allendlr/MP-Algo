@@ -779,6 +779,7 @@ public class StrassenGUI implements ActionListener{
         } else if (x.equals("P4")) {
             // d(g-e)
             //d
+            clearTable();
             for (int i = table_gap; i < table_gap * 2; i++) {
                 for (int j = table_gap; j < table_gap * 2; j++) {
                     table1_values[i][j].setOpaque(true);
@@ -828,8 +829,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
-            //f
-            for (int i = 0; i < table_gap; i++) {
+            //h
+            for (int i = table_gap; i < table_gap * 2; i++) {
                 for (int j = table_gap; j < table_gap * 2; j++) {
                     table2_values[i][j].setOpaque(true);
                 }
@@ -866,8 +867,8 @@ public class StrassenGUI implements ActionListener{
                     table2_values[i][j].setOpaque(true);
                 }
             }
-            //f
-            for (int i = 0; i < table_gap; i++) {
+            //h
+            for (int i = table_gap; i < table_gap * 2; i++) {
                 for (int j = table_gap; j < table_gap * 2; j++) {
                     table2_values[i][j].setOpaque(true);
                 }
@@ -911,7 +912,7 @@ public class StrassenGUI implements ActionListener{
                 }
             }
 
-            p_values.setText("P7: Formula = (a-e)(e+f)");
+            p_values.setText("P7: Formula = (a-c)(e+f)");
             logs_panel.removeAll();
             for(int i = 0; i < table_gap * table_gap; i++){
                 logs_panel.add(p_table_value[6][i]);
