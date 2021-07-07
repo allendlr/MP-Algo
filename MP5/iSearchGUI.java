@@ -14,6 +14,7 @@ import javax.swing.SwingWorker;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.BorderFactory;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
@@ -38,17 +39,20 @@ public class iSearchGUI implements ActionListener{
     private JButton next;
     private JButton prev;
     private JButton auto;
+    private JButton generateRand;
     private JComboBox speed_input;
     //legend componends
     private JLabel hCursor;
     private JLabel lCursor;
     private JLabel pCursor;
+    private JLabel foundCur;
     private JLabel key_label;
     private Vector<Vector<Integer>> simulation_state = new Vector<Vector<Integer>>();
     private JPanel cursor_panel;
     private int cursorPos = -1;
     private int cursorMax = 0;
     private int nElements = 0;
+    private Boolean foundGUI = false;
     iSearchGUI(){
         frame = new JFrame("Interpolation Search Simulation");
         //input_label
@@ -85,6 +89,14 @@ public class iSearchGUI implements ActionListener{
         simulate.setBackground(Color.WHITE);
         simulate.setFont(new Font("ARIAL", Font.BOLD, 15));
         simulate.addActionListener(this);
+        //generateRand
+        generateRand = new JButton("Random");
+        generateRand.setFocusable(false);
+        generateRand.setEnabled(true);
+        generateRand.setBounds(350, 130, 150, 40);
+        generateRand.setBackground(Color.WHITE);
+        generateRand.setFont(new Font("ARIAL", Font.BOLD, 15));
+        generateRand.addActionListener(this);
         //prev button
         prev = new JButton("<<");
         prev.setFocusable(false);
@@ -116,6 +128,12 @@ public class iSearchGUI implements ActionListener{
         speed_input.setBounds(630, 105, 150, 40);
         speed_input.setFocusable(false);
         speed_input.setEnabled(false);
+        //foundCur
+        foundCur = new JLabel("",JLabel.CENTER);
+        foundCur.setBounds(50, 380, 150, 50);
+        foundCur.setFont(new Font("ARIAL", Font.PLAIN, 20));
+        foundCur.setOpaque(true);
+        foundCur.setBorder(BorderFactory.createLineBorder(Color.black));
         //value_monitor
         value_monitor = new JPanel();
         value_monitor.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -133,6 +151,7 @@ public class iSearchGUI implements ActionListener{
         input_panel.setLayout(null);
         input_panel.setBounds(0,500,1024, 220);
         input_panel.setBackground(new Color(104, 143, 173));
+        input_panel.add(generateRand);
         input_panel.add(reset);
         input_panel.add(key_input);
         input_panel.add(value_input);
@@ -188,10 +207,14 @@ public class iSearchGUI implements ActionListener{
         }
         if (found) {
             System.out.println("FOUND @: " + pos);
+            foundCur.setText("Found at: " + pos);
+            foundCur.setBackground(Color.green);
         } else{
             System.out.println("NOT FOUND");
+            foundCur.setText("Key not Found");
+            foundCur.setBackground(Color.red);
         }
-            
+
         //change simulation_panel contents
         for(int i =0; i <n; i++){
             values[i] = new JLabel("  " + Integer.toString(arr[i]) + "  ");
@@ -228,6 +251,7 @@ public class iSearchGUI implements ActionListener{
         values[n - 1].setBackground(new ColorUIResource(255, 102, 102));
         values[n - 1].setOpaque(true);
         //add components to simulation panel
+        simulation_panel.add(foundCur);
         simulation_panel.add(pCursor);
         simulation_panel.add(hCursor);
         simulation_panel.add(lCursor);
@@ -247,6 +271,7 @@ public class iSearchGUI implements ActionListener{
         prev.setEnabled(false);
         auto.setEnabled(false);
         speed_input.setEnabled(false);
+        generateRand.setEnabled(true);
         value_monitor.removeAll();
         simulation_panel.removeAll();
         simulation_panel.revalidate();
@@ -264,6 +289,7 @@ public class iSearchGUI implements ActionListener{
         try {
             key = Integer.parseInt(key_input.getText());
         } catch (Exception error) {
+            check = false;
             popup.showMessageDialog(null, "Please input valid key value.", "KEY ERROR", JOptionPane.ERROR_MESSAGE);
         }
         // check if values are integer
@@ -324,6 +350,7 @@ public class iSearchGUI implements ActionListener{
             if (finalCheck) {
                 nElements = vInput.length;
                 simulate(vInput, vInput.length, key);
+                generateRand.setEnabled(false);
                 value_input.setEnabled(false);
                 key_input.setEnabled(false);
                 simulate.setEnabled(false);
@@ -378,8 +405,8 @@ public class iSearchGUI implements ActionListener{
                         values[high].setOpaque(true);
                         // Position pos = low + ((high - low)/ ((arr[high] - arr[low] * (key
                         // -arr[low]))));
-                        pCursor.setText("POSITION: " + low + " + ((" + high + "-" + low + ")/ ((" + h + "-" + l + "*"
-                                + "(" + key + "-" + l + ")))) = " + pos);
+                        pCursor.setText("POSITION: " + low + " + ((" + high + "-" + low + ") / (" + h + "-" + l + ")) *"
+                                + "(" + key + "-" + l + ") = " + pos);
                         values[pos].setBackground(new ColorUIResource(102, 255, 178));
                         values[pos].setOpaque(true);
                         frame.revalidate();
@@ -400,6 +427,23 @@ public class iSearchGUI implements ActionListener{
         };
         Worker.execute();
 
+    }
+    public void randomize(){
+        Random rand = new Random();
+        int randGap = rand.nextInt(9) + 1;
+        int randSize = rand.nextInt(18) + 2;
+        int randStart = rand.nextInt(10) + 1;
+        int randKey = rand.nextInt(randSize) + randStart;
+        String randValue = "";
+        int temp = randStart;
+        for(int i = 0; i < randSize; i++){
+            randValue += Integer.toString(temp) + " ";
+            temp += randGap;
+        }
+
+        value_input.setText(randValue);
+        key_input.setText(Integer.toString(randKey));
+        
     }
     @Override
     public void actionPerformed(ActionEvent e){
@@ -430,7 +474,8 @@ public class iSearchGUI implements ActionListener{
                 values[high].setBackground(new ColorUIResource(255, 102, 102));
                 values[high].setOpaque(true);
                 // Position pos = low + ((high - low)/ ((arr[high] - arr[low] * (key -arr[low]))));
-                pCursor.setText("POSITION: " + low + " + ((" + high + "-" + low + ")/ ((" + h + "-" + l + "*" + "("+ key + "-" + l + ")))) = " + pos );
+                pCursor.setText("POSITION: " + low + " + ((" + high + "-" + low + ") / (" + h + "-" + l + ")) *" + "("
+                        + key + "-" + l + ") = " + pos);
                 values[pos].setBackground(new ColorUIResource(102, 255, 178));
                 values[pos].setOpaque(true);
                 simulation_panel.revalidate();
@@ -461,10 +506,8 @@ public class iSearchGUI implements ActionListener{
                 hCursor.setText("HIGH: " + high);
                 values[high].setBackground(new ColorUIResource(255, 102, 102));
                 values[high].setOpaque(true);
-                // Position pos = low + ((high - low)/ ((arr[high] - arr[low] * (key
-                // -arr[low]))));
-                pCursor.setText("POSITION: " + low + " + ((" + high + "-" + low + ")/ ((" + h + "-" + l + "*" + "("
-                        + key + "-" + l + ")))) = " + pos);
+                // pos = low + (((high - low) / (arr[high] - arr[low])) * (key - arr[low]));
+                pCursor.setText("POSITION: " + low + " + ((" + high + "-" + low + ") / (" + h + "-" + l + ")) *" + "("+ key + "-" + l + ") = " + pos);
                 values[pos].setBackground(new ColorUIResource(102, 255, 178));
                 values[pos].setOpaque(true);
                 simulation_panel.revalidate();
@@ -494,6 +537,8 @@ public class iSearchGUI implements ActionListener{
             }
 
             auto_simulate(speed);
+        } else if(e.getSource() == generateRand){
+            randomize();
         }
     }
     public static void main(String[] args){
