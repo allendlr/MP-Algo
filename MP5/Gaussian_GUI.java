@@ -607,6 +607,7 @@ public class Gaussian_GUI extends javax.swing.JFrame {
         } else if (evt.getSource() == jButton6){
             jButton1.setEnabled(false);
             jButton7.setVisible(true);
+            jButton7.setEnabled(true);
             if (jComboBox1.getSelectedItem() == "2"){
                 jTextField1.setVisible(true);jTextField2.setVisible(true);jTextField3.setVisible(true);
                 jTextField8.setVisible(true);jTextField9.setVisible(true);jTextField10.setVisible(true);
@@ -711,7 +712,7 @@ public class Gaussian_GUI extends javax.swing.JFrame {
                 }
                 a[i].append("\n");
                 System.out.println("");
-                if (m == n-1){
+                if (m == 2){
                     jButton2.setEnabled(true);
                     m = 0;
                     jButton7.setVisible(false);
