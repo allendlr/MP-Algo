@@ -66,9 +66,9 @@ public class GaussianEliminationAlgo {
         }
         break;
       } else if (ch == 'N' || ch == 'n') {
-        System.out.println("\nValues for the system of linear equations");
+        System.out.println("\nEnter " + n + " x " + (n + 1) + " table: (" + n + " rows & " + (n + 1) + " columns)");
         for (int i = 0; i < n; i++) {
-          System.out.println("Equation #" + (i + 1) + " values: (Enter " + (n + 1) + " values)");
+//          System.out.println("Equation #" + (i + 1) + " values: (Enter " + (n + 1) + " values)");
           for (int j = 0; j < n + 1; j++) {
             matrix[i][j] = in.nextDouble();
           }
