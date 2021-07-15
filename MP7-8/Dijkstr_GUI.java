@@ -589,27 +589,39 @@ public class Dijkstr_GUI extends javax.swing.JFrame {
             n = 6;
         }
         if (evt.getSource() == jButton3){
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             l = 'A';
             jButton3.setEnabled(true);jButton4.setEnabled(false);jButton5.setEnabled(false);jButton6.setEnabled(false);jButton7.setEnabled(false);jButton8.setEnabled(false);
             jButton10.setVisible(true);jButton10.setEnabled(true);
         } else if (evt.getSource() == jButton4){
             l = 'B';
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton3.setEnabled(false);jButton4.setEnabled(true);jButton5.setEnabled(false);jButton6.setEnabled(false);jButton7.setEnabled(false);jButton8.setEnabled(false);
             jButton10.setVisible(true);jButton10.setEnabled(true);
         } else if (evt.getSource() == jButton5){
             l = 'C';
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton3.setEnabled(false);jButton4.setEnabled(false);jButton5.setEnabled(true);jButton6.setEnabled(false);jButton7.setEnabled(false);jButton8.setEnabled(false);
             jButton10.setVisible(true);jButton10.setEnabled(true);
         } else if (evt.getSource() == jButton6){
             l = 'D';
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton3.setEnabled(false);jButton4.setEnabled(false);jButton5.setEnabled(false);jButton6.setEnabled(true);jButton7.setEnabled(false);jButton8.setEnabled(false);
             jButton10.setVisible(true);jButton10.setEnabled(true);
         } else if (evt.getSource() == jButton7){
             l = 'E';
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton3.setEnabled(false);jButton4.setEnabled(false);jButton5.setEnabled(false);jButton6.setEnabled(false);jButton7.setEnabled(true);jButton8.setEnabled(false);
             jButton10.setVisible(true);jButton10.setEnabled(true);
         } else if (evt.getSource() == jButton8){
             l = 'F';
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton3.setEnabled(false);jButton4.setEnabled(false);jButton5.setEnabled(false);jButton6.setEnabled(false);jButton7.setEnabled(false);jButton8.setEnabled(true);
             jButton10.setVisible(true);jButton10.setEnabled(true);
         }
@@ -678,6 +690,8 @@ public class Dijkstr_GUI extends javax.swing.JFrame {
                 jTextField31.setEnabled(true);jTextField32.setEnabled(true);jTextField33.setEnabled(true);jTextField34.setEnabled(true);jTextField35.setEnabled(true);jTextField36.setEnabled(false);
             }
         }else if (evt.getSource() == jButton9){
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton10.setVisible(true);
             int [][] b = new int[n][n];
             if (jComboBox1.getSelectedItem() == "2") {
@@ -689,20 +703,20 @@ public class Dijkstr_GUI extends javax.swing.JFrame {
                 jButton3.setEnabled(true);jButton4.setEnabled(true);jButton5.setEnabled(true);jButton6.setEnabled(false);jButton7.setEnabled(false);jButton8.setEnabled(false);
                 jButton3.setVisible(true);jButton4.setVisible(true);jButton5.setVisible(true);jButton6.setVisible(false);jButton7.setVisible(false);jButton8.setVisible(false);
                 b[0][0] = 0;b[0][1] = Integer.parseInt(jTextField2.getText());b[0][2] = Integer.parseInt(jTextField3.getText());
-                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;a[1][2] = Integer.parseInt(jTextField9.getText());
+                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;b[1][2] = Integer.parseInt(jTextField9.getText());
                 b[2][0] = Integer.parseInt(jTextField13.getText());b[2][1] = Integer.parseInt(jTextField14.getText());b[2][2] = 0;
             } else if (jComboBox1.getSelectedItem() == "4") {
                 jButton3.setEnabled(true);jButton4.setEnabled(true);jButton5.setEnabled(true);jButton6.setEnabled(true);jButton7.setEnabled(false);jButton8.setEnabled(false);
                 jButton3.setVisible(true);jButton4.setVisible(true);jButton5.setVisible(true);jButton6.setVisible(true);jButton7.setVisible(false);jButton8.setVisible(false);
                 b[0][0] = 0;b[0][1] = Integer.parseInt(jTextField2.getText());b[0][2] = Integer.parseInt(jTextField3.getText());b[0][3] = Integer.parseInt(jTextField4.getText());
-                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;a[1][2] = Integer.parseInt(jTextField9.getText());b[1][3] = Integer.parseInt(jTextField10.getText());
+                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;b[1][2] = Integer.parseInt(jTextField9.getText());b[1][3] = Integer.parseInt(jTextField10.getText());
                 b[2][0] = Integer.parseInt(jTextField13.getText());b[2][1] = Integer.parseInt(jTextField14.getText());b[2][2] = 0;b[2][3] = Integer.parseInt(jTextField16.getText());
                 b[3][0] = Integer.parseInt(jTextField19.getText());b[3][1] = Integer.parseInt(jTextField20.getText());b[3][2] = Integer.parseInt(jTextField21.getText());b[3][3] = 0;
             } else if (jComboBox1.getSelectedItem() == "5") {
                 jButton3.setEnabled(true);jButton4.setEnabled(true);jButton5.setEnabled(true);jButton6.setEnabled(true);jButton7.setEnabled(true);jButton8.setEnabled(false);
                 jButton3.setVisible(true);jButton4.setVisible(true);jButton5.setVisible(true);jButton6.setVisible(true);jButton7.setVisible(true);jButton8.setVisible(false);
                 b[0][0] = 0;b[0][1] = Integer.parseInt(jTextField2.getText());b[0][2] = Integer.parseInt(jTextField3.getText());b[0][3] = Integer.parseInt(jTextField4.getText());b[0][4] = Integer.parseInt(jTextField5.getText());
-                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;a[1][2] = Integer.parseInt(jTextField9.getText());b[1][3] = Integer.parseInt(jTextField10.getText());b[1][4] = Integer.parseInt(jTextField11.getText());
+                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;b[1][2] = Integer.parseInt(jTextField9.getText());b[1][3] = Integer.parseInt(jTextField10.getText());b[1][4] = Integer.parseInt(jTextField11.getText());
                 b[2][0] = Integer.parseInt(jTextField13.getText());b[2][1] = Integer.parseInt(jTextField14.getText());b[2][2] = 0;b[2][3] = Integer.parseInt(jTextField16.getText());b[2][4] = Integer.parseInt(jTextField17.getText());
                 b[3][0] = Integer.parseInt(jTextField19.getText());b[3][1] = Integer.parseInt(jTextField20.getText());b[3][2] = Integer.parseInt(jTextField21.getText());b[3][3] = 0;b[3][4] = Integer.parseInt(jTextField23.getText());
                 b[4][0] = Integer.parseInt(jTextField25.getText());b[4][1] = Integer.parseInt(jTextField26.getText());b[4][2] = Integer.parseInt(jTextField27.getText());b[4][3] = Integer.parseInt(jTextField28.getText());b[4][4] = 0;
@@ -710,7 +724,7 @@ public class Dijkstr_GUI extends javax.swing.JFrame {
                 jButton3.setEnabled(true);jButton4.setEnabled(true);jButton5.setEnabled(true);jButton6.setEnabled(true);jButton7.setEnabled(true);jButton8.setEnabled(true);
                 jButton3.setVisible(true);jButton4.setVisible(true);jButton5.setVisible(true);jButton6.setVisible(true);jButton7.setVisible(true);jButton8.setVisible(true);
                 b[0][0] = 0;b[0][1] = Integer.parseInt(jTextField2.getText());b[0][2] = Integer.parseInt(jTextField3.getText());b[0][3] = Integer.parseInt(jTextField4.getText());b[0][4] = Integer.parseInt(jTextField5.getText());b[0][5] = Integer.parseInt(jTextField6.getText());
-                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;a[1][2] = Integer.parseInt(jTextField9.getText());b[1][3] = Integer.parseInt(jTextField10.getText());b[1][4] = Integer.parseInt(jTextField11.getText());b[1][5] = Integer.parseInt(jTextField12.getText());
+                b[1][0] = Integer.parseInt(jTextField7.getText());b[1][1] = 0;b[1][2] = Integer.parseInt(jTextField9.getText());b[1][3] = Integer.parseInt(jTextField10.getText());b[1][4] = Integer.parseInt(jTextField11.getText());b[1][5] = Integer.parseInt(jTextField12.getText());
                 b[2][0] = Integer.parseInt(jTextField13.getText());b[2][1] = Integer.parseInt(jTextField14.getText());b[2][2] = 0;b[2][3] = Integer.parseInt(jTextField16.getText());b[2][4] = Integer.parseInt(jTextField17.getText());b[2][5] = Integer.parseInt(jTextField18.getText());
                 b[3][0] = Integer.parseInt(jTextField19.getText());b[3][1] = Integer.parseInt(jTextField20.getText());b[3][2] = Integer.parseInt(jTextField21.getText());b[3][3] = 0;b[3][4] = Integer.parseInt(jTextField23.getText());b[3][5] = Integer.parseInt(jTextField24.getText());
                 b[4][0] = Integer.parseInt(jTextField25.getText());b[4][1] = Integer.parseInt(jTextField26.getText());b[4][2] = Integer.parseInt(jTextField27.getText());b[4][3] = Integer.parseInt(jTextField28.getText());b[4][4] = 0;b[4][5] = Integer.parseInt(jTextField30.getText());
@@ -718,6 +732,8 @@ public class Dijkstr_GUI extends javax.swing.JFrame {
             }
             a = b;
         }else if (evt.getSource() == jButton10){
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jTextArea1.setEnabled(true);
             jButton9.setEnabled(false);
             jButton11.setEnabled(true);
@@ -744,6 +760,8 @@ public class Dijkstr_GUI extends javax.swing.JFrame {
                 jTextArea1.append("\n");
             }
         } else if (evt.getSource() == jButton11) {
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
             jButton10.setEnabled(false);
             jTextArea2.setEnabled(true);
             jTextArea3.setEnabled(true);
