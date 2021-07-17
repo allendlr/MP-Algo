@@ -232,6 +232,7 @@ public class RoundRobin implements ActionListener{
         for(Integer i: a){
             ready.add(i);
         }
+        System.out.println(ready);
         for(int i = 0; i < size; i++){
             burst.add(remTime[i]);
             if(waitState[i] == false){
@@ -263,7 +264,6 @@ public class RoundRobin implements ActionListener{
         for(int i = 0; i < size; i ++){
             screen_data[0] = "JOB " + (i + 1);
             screen_data[1] = Integer.toString(b[i]);
-
             screen_tmodel.addRow(screen_data);
         }
         //Final Table
@@ -349,7 +349,6 @@ public class RoundRobin implements ActionListener{
                     if (jobtime[index] != 0) {
                         jobtime[index]--;
                         time++;
-                        
                     }
                     getRState(rQueue, jobtime, jobs, size);
                     if(jobtime[index] == 0) {
@@ -368,14 +367,14 @@ public class RoundRobin implements ActionListener{
             
         }
         for(int i = 0; i < time; i++){
-            System.out.println(readyQState.get(i));
+            //System.out.println(readyQState.get(i));
         }
         for(int i = 0; i < size; i++){
             tt[i] = ft[i] - a[i];
             wt[i] = tt[i] - b[i];
         }
         printSimulation(a, b, ft, tt, wt, size, time);
-        System.out.println(remQState);
+        System.out.println(readyQState);
         global_time = time;
         System.out.println("PROCESS TIME: " + (time));
     }
@@ -450,24 +449,26 @@ public class RoundRobin implements ActionListener{
             if(cursor < global_time - 1){
                 cursor++;
                 String current_process;
-                try{
+                try {
                     current_process = Integer.toString(readyQState.get(cursor).get(0) + 1);
-                }catch(Exception error){ current_process = "N/A";}
-                
+                } catch (Exception error) {
+                    current_process = "N/A";
+                }
+
                 TimeIndicator.setText("TIME: " + cursor);
                 CurrentIndicator.setText("Current Process: JOB " + (current_process));
                 String data[] = new String[2];
-                for(int i =0; i < elements; i++){
-                    data[0] = "JOB " + (i+1);
+                for (int i = 0; i < elements; i++) {
+                    data[0] = "JOB " + (i + 1);
                     data[1] = Integer.toString(remQState.get(cursor).get(i));
 
                     screen_tmodel.addRow(data);
                 }
-                //add wait states
+                // add wait states
                 int x = 0;
-                for(int i = 0; i < elements; i++){
-                    if(waitQState.get(cursor).get(i) == 1){
-                        wait_label[i] = new JLabel("JOB"+(1+i));
+                for (int i = 0; i < elements; i++) {
+                    if (waitQState.get(cursor).get(i) == 1) {
+                        wait_label[i] = new JLabel("JOB" + (1 + i));
                         wait_label[i].setBounds(x, 0, 70, 50);
                         wait_label[i].setForeground(Color.WHITE);
                         wait_label[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
@@ -476,20 +477,22 @@ public class RoundRobin implements ActionListener{
                         x += 70;
                     }
                 }
-                //add ready states
-                x= 0;
-                if(readyQState.get(cursor) != null){
-                    int rSize = readyQState.get(cursor).size();
-                    for(int i = 0; i < rSize; i++){
-                        ready_label[i] = new JLabel("JOB" + (1 + i));
-                        ready_label[i].setBounds(x, 0, 70, 50);
-                        ready_label[i].setForeground(Color.WHITE);
-                        ready_label[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
-                        ready_label[i].setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                        ready_panel.add(ready_label[i]);
-                        x += 70;
-                    }
+                // add ready states
+                x = 0;
+
+                int rSize = readyQState.get(cursor).size();
+                System.out.println("ADD LABEL: ");
+                System.out.println(readyQState.get(cursor));
+                for (int i = 0; i < rSize; i++) {
+                    ready_label[i] = new JLabel("JOB" + (1 + readyQState.get(cursor).get(i)));
+                    ready_label[i].setBounds(x, 0, 70, 50);
+                    ready_label[i].setForeground(Color.WHITE);
+                    ready_label[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
+                    ready_label[i].setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                    ready_panel.add(ready_label[i]);
+                    x += 70;
                 }
+
                 simulation_panel.revalidate();
                 simulation_panel.repaint();
             } else{
@@ -502,7 +505,7 @@ public class RoundRobin implements ActionListener{
             ready_panel.removeAll();
             wait_panel.removeAll();
             screen_tmodel.setRowCount(0);
-            if (cursor > -1) {
+            if (cursor > 0) {
                 cursor--;
                 String current_process;
                 try {
@@ -535,10 +538,12 @@ public class RoundRobin implements ActionListener{
                 }
                 // add ready states
                 x = 0;
-                if (readyQState.get(cursor) != null) {
+                
                     int rSize = readyQState.get(cursor).size();
+                    System.out.println("ADD LABEL: ");
+                    System.out.println(readyQState.get(cursor));
                     for (int i = 0; i < rSize; i++) {
-                        ready_label[i] = new JLabel("JOB" + (1 + i));
+                        ready_label[i] = new JLabel("JOB" + (1 + readyQState.get(cursor).get(i)));
                         ready_label[i].setBounds(x, 0, 70, 50);
                         ready_label[i].setForeground(Color.WHITE);
                         ready_label[i].setFont(new Font("ARIAL", Font.PLAIN, 20));
@@ -546,7 +551,7 @@ public class RoundRobin implements ActionListener{
                         ready_panel.add(ready_label[i]);
                         x += 70;
                     }
-                }
+                
                 simulation_panel.revalidate();
                 simulation_panel.repaint();
             } else {
